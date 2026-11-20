@@ -69,7 +69,6 @@ from langgraph.types import interrupt, Command, RetryPolicy
 from langchain_openai import ChatOpenAI
 from langchain.messages import HumanMessage
 
-llm = ChatOpenAI(model_name="gpt-4")
 
 def read_email(state: EmailAgentState) -> dict:
     '''读取邮件内容'''
@@ -104,8 +103,8 @@ load_dotenv()
 def get_chat_model():
     """获取兼容 OpenAI 接口的模型（如 DeepSeek、Qwen 或 gpt-4o-mini）"""
     api_key = os.getenv("OPENAI_API_KEY")
-    base_url = os.getenv("OPENAI_BASE_URL")
-    model_name = os.getenv("LLM_MODEL", "openai:deepseek-chat")
+    base_url = os.getenv("OPEN_BASE_URL")
+    model_name = os.getenv("LLM_MODEL")
 
     if not api_key:
         print("⚠️ 警告: 未在 .env 检测到 OPENAI_API_KEY，将使用模拟模式运行！")
@@ -115,6 +114,7 @@ def get_chat_model():
         model=model_name,
         api_key=api_key,
         base_url=base_url,
+        model_provider="openai",
         temperature=0.0,
     )
 
